@@ -1,4 +1,4 @@
-import { error, redirect } from '@sveltejs/kit';
+import { error, isRedirect, redirect } from '@sveltejs/kit';
 import type { RequestHandler } from '../$types';
 import { google } from '$lib/config/oauth';
 import axios from 'axios';
@@ -14,13 +14,8 @@ export const GET: RequestHandler = async ({ cookies, url }) => {
 
 		cookies.delete('google_auth_codeVerifier', { path: '/' });
 		cookies.delete('google_auth_state', { path: '/' });
-console.log({
-    code: code,
-    state: state,
-    storedState,
-    codeVerifier
-})
-		// if (!code || !state || !codeVerifier || !storedState) error(400, 'Missing OAuth Parameters');
+
+		if (!code || !state || !codeVerifier || !storedState) error(400, 'Missing OAuth Parameters');
 
 		if (state !== storedState) error(400, "State doesn't match");
 
@@ -32,18 +27,11 @@ console.log({
 		const base_url = env.BASE_URL;
 
 		const res = await axios.post(
-			`${base_url}api/auth/google/`,
+			`${base_url}/auth/google/`,
 			{
 				access_token: accessToken
-			},
-			{
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				withCredentials: true
 			}
 		);
-
 		if (res?.status === 200 && (res?.data?.access || res?.data?.refresh)) {
 			const access_token = res?.data?.access;
 			const refresh_token = res?.data?.refresh;
@@ -60,13 +48,12 @@ console.log({
 				secure: false
 			});
             console.log('hello')
-			redirect(302, 'create/idea');
+			redirect(302, '/create/idea');
 		} else {
-			console.log('hello');
 			redirect(302, '/login');
 		}
 	} catch (error) {
-		console.log('first', error);
-		redirect(302, '#');
+		if(isRedirect(error)) throw error;
+		redirect(302, '/login');
 	}
 };
