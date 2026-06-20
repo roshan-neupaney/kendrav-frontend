@@ -31,8 +31,8 @@
 				<div class="space-y-2">
 					<Label for="name">Full Name</Label>
 					<Input
-						id="name"
-						name="name"
+						id="full_name"
+						name="full_name"
 						type="text"
 						placeholder="John Doe"
 						required
@@ -48,17 +48,6 @@
 						placeholder="john@example.com"
 						required
 						autocomplete="email"
-					/>
-				</div>
-				<div class="space-y-2">
-					<Label for="username">Username</Label>
-					<Input
-						id="username"
-						name="username"
-						type="text"
-						placeholder="johndoe"
-						required
-						autocomplete="username"
 					/>
 				</div>
 				<div class="space-y-2">
