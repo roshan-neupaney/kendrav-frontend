@@ -33,15 +33,14 @@
 			{/if} -->
 			<form method="POST" use:enhance class="space-y-4">
 				<div class="space-y-2">
-					<Label for="username">Username</Label>
+					<Label for="email">Email</Label>
 					<Input
-						id="username"
-						name="username"
+						id="email"
+						name="email"
 						type="text"
-						placeholder="Enter your username"
+						placeholder="Enter your email"
 						required
-						autocomplete="username"
-						value="demo"
+						autocomplete="email"
 					/>
 				</div>
 				<div class="space-y-2">
@@ -53,7 +52,6 @@
 						placeholder="Enter your password"
 						required
 						autocomplete="current-password"
-						value="SvelteDemo2026!"
 					/>
 				</div>
 				<Button type="submit" class="w-full">Sign in</Button>

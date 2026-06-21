@@ -54,6 +54,7 @@
 	"dependencies": {
 		"@lucide/svelte": "^1.21.0",
 		"arctic": "^3.7.0",
-		"axios": "^1.18.0"
+		"axios": "^1.18.0",
+		"zod": "^4.4.3"
 	}
 }
