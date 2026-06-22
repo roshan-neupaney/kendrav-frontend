@@ -15,7 +15,11 @@
 		console.log(form?.message)
 		if(form?.success){
 			toast.success(form.message)
-			goto('/create/idea');
+			goto('/create/idea', {
+				replaceState: true
+			});
+		} else if(form?.message){
+			toast.error(form?.message)
 		}
 	})
 </script>
