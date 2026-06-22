@@ -1,26 +1,24 @@
-export const ServerSideGet = (url: string) => {
-	const resData = {
-		data: [],
-		message: '',
-		status: 0
-	};
-};
+import { env } from "$env/dynamic/private";
+
+const baseUrl = env.BASE_URL;
 
 export const PostMethod = async <T, R>(
 	url: string,
 	payload: T,
 	fetchFn: typeof fetch = fetch,
-	contentType: string = 'application/json'
+	headers?: {[key: string]: string}
 ): Promise<R> => {
-	const res = await fetchFn(url, {
+	const res = await fetch(`${baseUrl}/${url}`, {
 		method: 'POST',
 		body: JSON.stringify(payload),
 		headers: {
-			'Content-Type': contentType
+			...(headers ? headers : {}),
+			'Content-Type': headers?.['Content-Type'] ? headers?.['Content-Type'] : 'application/json',
 		}
 	});
+	console.log('res', res)
 	if (!res.ok) {
-		throw new Error(`HTTP Error: ${res.status}`);
+		throw new Error(`HTTP Error: ${res.statusText}`);
 	}
 	return res.json();
 };

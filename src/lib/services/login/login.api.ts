@@ -7,6 +7,8 @@ export const LoginPost = async (
 	payload: LoginFormData,
 	fetchFn: typeof fetch = fetch
 ) => {
+	
 	const res = await PostMethod<LoginFormData, LoginResponse>(url, payload, fetchFn);
+	console.log('res', res)
 	return res;
 };

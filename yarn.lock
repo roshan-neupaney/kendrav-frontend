@@ -1744,6 +1744,13 @@ rolldown@1.0.3:
     "@rolldown/binding-win32-arm64-msvc" "1.0.3"
     "@rolldown/binding-win32-x64-msvc" "1.0.3"
 
+runed@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/runed/-/runed-0.28.0.tgz#68e2ec076ae921f5e7ca0ebaa37e9f6598775c3c"
+  integrity sha512-k2xx7RuO9hWcdd9f+8JoBeqWtYrm5CALfgpkg2YDB80ds/QE4w0qqu34A7fqiAwiBBSBQOid7TLxwxVC27ymWQ==
+  dependencies:
+    esm-env "^1.0.0"
+
 runed@^0.35.1:
   version "0.35.1"
   resolved "https://registry.yarnpkg.com/runed/-/runed-0.35.1.tgz#e7e424aaa18d4e585a9e7b2d948c2b0860858c74"
@@ -1852,6 +1859,13 @@ svelte-eslint-parser@^1.7.0:
     postcss-scss "^4.0.9"
     postcss-selector-parser "^7.0.0"
     semver "^7.7.2"
+
+svelte-sonner@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/svelte-sonner/-/svelte-sonner-1.1.1.tgz#dcdbe23fbfde0566cf096db10b1a8967bee5133d"
+  integrity sha512-5cd3p7wa4cq0NsqslMwdlPb7x1JglEZ/GKrLePWNr5bCxR1nagAVrY01FRFrXfUGs41miLt3C327+8XJo5BzZw==
+  dependencies:
+    runed "^0.28.0"
 
 svelte-toolbelt@^0.10.6:
   version "0.10.6"
