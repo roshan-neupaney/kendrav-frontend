@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import ZapIcon from '@lucide/svelte/icons/zap';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -6,6 +6,18 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
 	import { enhance } from '$app/forms';
+	import type { PageProps } from './$types';
+	import { toast } from 'svelte-sonner';
+	import { goto } from '$app/navigation';
+
+	let { form }: PageProps = $props() ;
+	$effect(() => {
+		console.log(form?.message)
+		if(form?.success){
+			toast.success(form.message)
+			goto('/create/idea');
+		}
+	})
 </script>
 
 <svelte:head>
