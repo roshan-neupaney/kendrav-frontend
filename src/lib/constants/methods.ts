@@ -1,4 +1,4 @@
-import { api } from "$lib/api";
+import { api } from "$lib/services/api";
 
 export const PostMethod = async <P, R>(url: string, payload: P, fetchFn: typeof fetch = fetch) => {
 	const res = await api.post<P, R>(url, payload, fetchFn);
