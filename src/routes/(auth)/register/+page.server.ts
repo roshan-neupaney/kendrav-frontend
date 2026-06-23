@@ -14,8 +14,7 @@ export const actions = {
 				full_name: requestData.get('full_name'),
 				email: requestData.get('email'),
 				password: requestData.get('password'),
-				confirm_password: requestData.get('confirm_password'),
-                
+				confirm_password: requestData.get('confirm_password')
 			};
 
 			const validatedData = RegisterSchema.safeParse(formData);
@@ -30,11 +29,11 @@ export const actions = {
 				validatedData.data,
 				fetch
 			);
-			if (res.status === 200) {
-				return fail(400, {
+			if (res.status === 201) {
+				return {
 					message: res.message,
 					success: true
-				});
+				};
 			} else {
 				return fail(400, {
 					message: res.message,

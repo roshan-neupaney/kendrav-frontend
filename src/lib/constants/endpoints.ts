@@ -1,2 +1,2 @@
 export const LoginApi = 'auth/login/';
-export const RegisterApi = 'auth/register'
+export const RegisterApi = 'auth/register/';
