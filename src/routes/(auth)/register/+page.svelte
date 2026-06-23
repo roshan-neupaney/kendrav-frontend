@@ -1,13 +1,25 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { ZapIcon } from '@lucide/svelte';
+	import { toast } from 'svelte-sonner';
 
-    let { form } = $props();
+	let { form } = $props();
+	$effect(() => {
+		if (form?.success) {
+			toast.success(form.message);
+			goto('/login', { replaceState: true });
+		} else if (form?.message) {
+			toast.error(form?.message);
+		}
+		console.log(form?.errors)
+	});
 </script>
+
 <div class="bg-background flex min-h-screen items-center justify-center p-4">
 	<Card.Root class="w-full max-w-md">
 		<Card.Header class="space-y-1 text-center">
@@ -19,7 +31,6 @@
 				</div>
 			</div>
 			<Card.Title class="text-2xl font-bold">Create an account</Card.Title>
-			<Card.Description>Get started with SvelteForge Admin</Card.Description>
 		</Card.Header>
 		<Card.Content>
 			{#if form?.message}
@@ -56,9 +67,19 @@
 						id="password"
 						name="password"
 						type="password"
-						placeholder="6+ characters"
+						placeholder="8+ characters"
 						required
 						autocomplete="new-password"
+					/>
+				</div>
+				<div class="space-y-2">
+					<Label for="confirm_password">Confirm Password</Label>
+					<Input
+						id="confirm_password"
+						name="confirm_password"
+						type="password"
+						placeholder="Re-enter your password"
+						required
 					/>
 				</div>
 				<Button type="submit" class="w-full">Create account</Button>
