@@ -7,16 +7,14 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { ZapIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
+	import type { PageProps } from './$types';
 
-	let { form } = $props();
+	let { form }: PageProps = $props();
 	$effect(() => {
 		if (form?.success) {
 			toast.success(form.message);
 			goto('/login', { replaceState: true });
-		} else if (form?.message) {
-			toast.error(form?.message);
 		}
-		console.log(form?.errors)
 	});
 </script>
 
