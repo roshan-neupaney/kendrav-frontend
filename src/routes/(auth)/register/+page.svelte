@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	// import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card';
@@ -8,14 +8,36 @@
 	import { ZapIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import type { PageProps } from './$types';
+	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
+	import {
+		RegisterSchema,
+		type RegisterFormData
+	} from '$lib/services/register/register.validation';
+	import * as Form from '$lib/components/ui/form/index.js';
 
-	let { form }: PageProps = $props();
-	$effect(() => {
-		if (form?.success) {
-			toast.success(form.message);
-			goto('/login', { replaceState: true });
-		}
+	// let { form }: PageProps = $props();
+
+	let {
+		data
+	}: {
+		data: {
+			form: SuperValidated<Infer<RegisterFormData>>;
+		};
+	} = $props();
+	let initialForm = $derived(data.form);
+	const form = superForm(initialForm, {
+		validators: zod4Client(RegisterSchema)
 	});
+
+	const { form: formData, enhance } = form;
+	console.log(form.message)
+	// $effect(() => {
+	// 	if (form?.success) {
+	// 		toast.success(form.message);
+	// 		goto('/login', { replaceState: true });
+	// 	}
+	// });
 </script>
 
 <div class="bg-background flex min-h-screen items-center justify-center p-4">
@@ -37,6 +59,15 @@
 				</div>
 			{/if}
 			<form method="POST" use:enhance class="space-y-4">
+				<Form.Field {form} name="email">
+					<Form.Control>
+						{#snippet children({ props })}
+							<Form.Label>Email</Form.Label>
+							<Input {...props} bind:value={$formData.email} />
+						{/snippet}
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
 				<div class="space-y-2">
 					<Label for="name">Full Name</Label>
 					<Input

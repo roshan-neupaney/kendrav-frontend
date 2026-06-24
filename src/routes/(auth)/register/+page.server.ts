@@ -1,9 +1,18 @@
 import { RegisterSchema, type RegisterFormData } from '$lib/services/register/register.validation';
 import { formatErrors } from '$lib/utils/zod';
 import { fail } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { PostMethod } from '$lib/constants/methods';
 import { RegisterApi } from '$lib/constants/endpoints';
+import { superValidate } from 'sveltekit-superforms';
+import { zod4 } from "sveltekit-superforms/adapters";
+
+export const load: PageServerLoad = async () => {
+  return {
+    form: await superValidate(zod4(RegisterSchema)),
+  };
+};
+
 
 export const actions = {
 	default: async ({ request, fetch }) => {
