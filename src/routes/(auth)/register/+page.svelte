@@ -1,5 +1,5 @@
 <script lang="ts">
-	// import { enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card';
@@ -17,21 +17,19 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 
 	// let { form }: PageProps = $props();
+	let { data }: PageProps = $props();
 
-	let {
-		data
-	}: {
-		data: {
-			form: SuperValidated<Infer<RegisterFormData>>;
-		};
-	} = $props();
-	let initialForm = $derived(data.form);
+	let { form: initialForm } = data;
+
 	const form = superForm(initialForm, {
 		validators: zod4Client(RegisterSchema)
 	});
 
-	const { form: formData, enhance } = form;
-	console.log(form.message)
+	const { form: formData, errors } = form;
+	$effect(() => {
+		console.log('formData', $formData);
+		console.log('errors', $errors);
+	});
 	// $effect(() => {
 	// 	if (form?.success) {
 	// 		toast.success(form.message);
@@ -59,7 +57,7 @@
 				</div>
 			{/if}
 			<form method="POST" use:enhance class="space-y-4">
-				<Form.Field {form} name="email">
+				<!-- <Form.Field {form} name="email">
 					<Form.Control>
 						{#snippet children({ props })}
 							<Form.Label>Email</Form.Label>
@@ -67,7 +65,7 @@
 						{/snippet}
 					</Form.Control>
 					<Form.FieldErrors />
-				</Form.Field>
+				</Form.Field> -->
 				<div class="space-y-2">
 					<Label for="name">Full Name</Label>
 					<Input

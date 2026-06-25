@@ -17,38 +17,44 @@ export const load: PageServerLoad = async () => {
 export const actions = {
 	default: async ({ request, fetch }) => {
 		try {
-			const requestData = await request.formData();
-
-			const formData = {
-				full_name: requestData.get('full_name'),
-				email: requestData.get('email'),
-				password: requestData.get('password'),
-				confirm_password: requestData.get('confirm_password')
-			};
-
-			const validatedData = RegisterSchema.safeParse(formData);
-			if (!validatedData.success) {
-				return fail(400, {
-					errors: formatErrors(validatedData.error)
-				});
+			console.log('first')
+			const form = await superValidate(request, zod4(RegisterSchema));
+			console.log('form', form)
+			if(!form.valid){
+				return fail(400, { form })
 			}
+			// const requestData = await request.formData();
 
-			const res = await PostMethod<RegisterFormData, unknown>(
-				RegisterApi,
-				validatedData.data,
-				fetch
-			);
-			if (res.status === 201) {
-				return {
-					message: res.message,
-					success: true
-				};
-			} else {
-				return fail(400, {
-					message: res.message,
-					success: false
-				});
-			}
+			// const formData = {
+			// 	full_name: requestData.get('full_name'),
+			// 	email: requestData.get('email'),
+			// 	password: requestData.get('password'),
+			// 	confirm_password: requestData.get('confirm_password')
+			// };
+
+			// const validatedData = RegisterSchema.safeParse(formData);
+			// if (!validatedData.success) {
+			// 	return fail(400, {
+			// 		errors: formatErrors(validatedData.error)
+			// 	});
+			// }
+
+			// const res = await PostMethod<RegisterFormData, unknown>(
+			// 	RegisterApi,
+			// 	validatedData.data,
+			// 	fetch
+			// );
+			// if (res.status === 201) {
+			// 	return {
+			// 		message: res.message,
+			// 		success: true
+			// 	};
+			// } else {
+			// 	return fail(400, {
+			// 		message: res.message,
+			// 		success: false
+			// 	});
+			// }
 		} catch (error) {
 			return fail(400, {
 				message: 'Something went wrong!',
