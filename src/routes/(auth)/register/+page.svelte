@@ -3,20 +3,16 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
 	import { ZapIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import type { PageProps } from './$types';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zod4Client } from 'sveltekit-superforms/adapters';
-	import {
-		RegisterSchema,
-		type RegisterFormData
-	} from '$lib/services/register/register.validation';
+	import { RegisterSchema } from '$lib/services/register/register.validation';
 	import * as Form from '$lib/components/ui/form/index.js';
-	import { untrack } from 'svelte';
+	import { enhance } from '$app/forms';
+	import CustomInput from '$lib/components/custom/CustomInput.svelte';
 
-	// let { form }: PageProps = $props();
 	let { data }: PageProps = $props();
 
 	let { form: initialForm } = data;
@@ -25,7 +21,10 @@
 		validators: zod4Client(RegisterSchema)
 	});
 
-	const { form: formData, errors, message, enhance } = form;
+	const { form: formData, message, errors } = form;
+	// $effect(() => {
+	// 	console.log('form', $formData)
+	// })
 	// $effect(() => {
 	// 	if (form?.success) {
 	// 		toast.success(form.message);
@@ -53,54 +52,42 @@
 				</div>
 			{/if}
 			<form method="POST" use:enhance class="space-y-4">
-				<Form.Field {form} name="full_name">
-					<Form.Control>
-						<Form.Label>Full Name</Form.Label>
-						<Input
-							type="text"
-							placeholder="John Doe"
-							required
-							autocomplete="name"
-						/>
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-				<Form.Field {form} name="email">
-					<Form.Control>
-						<Form.Label>Email</Form.Label>
-						<Input
-							placeholder="john@example.com"
-							autocomplete="email"
-							type="email"
-							required
-						/>
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-				<Form.Field {form} name="password">
-					<Form.Control>
-						<Form.Label>Password</Form.Label>
-						<Input
-							type="password"
-							placeholder="6+ characters"
-							required
-							autocomplete="new-password"
-						/>
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-				<Form.Field {form} name="password">
-					<Form.Control>
-						<Form.Label>Confirm Password</Form.Label>
-						<Input
-							type="password"
-							placeholder="Re-enter your password"
-							required
-						/>
-					</Form.Control>
-					<Form.FieldErrors />
-				</Form.Field>
-				<Button type="submit" class="w-full">Create account</Button>
+				<CustomInput
+					{form}
+					name={'full_name'}
+					label="Full Name"
+					placeholder="John Doe"
+					value={$formData.full_name}
+					required
+				/>
+				<CustomInput
+					{form}
+					name={'email'}
+					label="Email"
+					placeholder="john@example.com"
+					type='email'
+					value={$formData.email}
+					required
+				/>
+				<CustomInput
+					{form}
+					name={'password'}
+					label="Password"
+					placeholder="6+ characters"
+					value={$formData.password}
+					type='password'
+					required
+				/>
+				<CustomInput
+					{form}
+					name={'confirm_password'}
+					label="Confirm Password"
+					placeholder="Re-enter your password"
+					value={$formData.confirm_password}
+					type='password'
+					required
+				/>
+				<Form.Button type="submit" class="w-full">Create account</Form.Button>
 			</form>
 		</Card.Content>
 		<Card.Footer class="justify-center">

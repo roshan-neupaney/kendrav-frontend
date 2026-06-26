@@ -1,5 +1,4 @@
 import { RegisterSchema, type RegisterFormData } from '$lib/services/register/register.validation';
-import { formatErrors } from '$lib/utils/zod';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { PostMethod } from '$lib/constants/methods';
@@ -17,13 +16,14 @@ export const actions = {
 	default: async ({ request, fetch }) => {
 		try {
 			const form = await superValidate(request, zod4(RegisterSchema));
+			console.log('form', form)
 			if (!form.valid) {
 				return fail(400, { form });
 			}
 			console.log('first');
 
 			const res = await PostMethod<RegisterFormData, unknown>(RegisterApi, form.data, fetch);
-			console.log(res);
+			console.log('res', res);
 			if (res.status === 201) {
 				return message(form, {
 					text: res.message,
