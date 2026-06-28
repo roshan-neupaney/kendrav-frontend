@@ -22,13 +22,13 @@
 		type?: 'text' | 'password' | 'email' | 'file' | 'radio';
 	} = $props();
 
-	const { value } = formFieldProxy(form, name as string);
+	const { value } = $derived.by(() =>formFieldProxy(form, name as string));
 </script>
 
 <Form.Field {form} {name}>
 	<Form.Control>
 		{#snippet children({ props })}
-			<Form.Label>{label}</Form.Label>
+			<Form.Label>{label}{required ? '*' : ''}</Form.Label>
 			<Input {...props} {type} {placeholder} {required} {autocomplete} bind:value={$value} />
 		{/snippet}
 	</Form.Control>

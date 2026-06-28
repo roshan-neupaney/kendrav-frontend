@@ -7,17 +7,16 @@
 	import { RegisterSchema } from '$lib/services/register/register.validation';
 	import * as Form from '$lib/components/ui/form/index.js';
 	import CustomInput from '$lib/components/custom/CustomInput.svelte';
+	import { untrack } from 'svelte';
 
-	let { data }: PageProps = $props();
+let { data }: PageProps = $props();
 
-	let { form: initialForm } = data;
+const form = untrack(() =>superForm(data.form, {
+    validators: zod4Client(RegisterSchema),
+    validationMethod: 'oninput'
+}));
 
-	const form = superForm(initialForm, {
-		validators: zod4Client(RegisterSchema),
-		validationMethod: 'oninput'
-	});
-
-	const { message, enhance } = form;
+const { message, enhance } = form;
 </script>
 
 <div class="bg-background flex min-h-screen items-center justify-center p-4">
