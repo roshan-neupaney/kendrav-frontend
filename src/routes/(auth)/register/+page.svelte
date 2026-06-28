@@ -8,17 +8,28 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import CustomInput from '$lib/components/custom/CustomInput.svelte';
 	import { untrack } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { toast } from 'svelte-sonner';
+	import { Spinner } from '$lib/components/ui/spinner/index';
 
 	let { data }: PageProps = $props();
 
 	const form = untrack(() =>
 		superForm(data.form, {
 			validators: zod4Client(RegisterSchema),
-			validationMethod: 'oninput'
+			validationMethod: 'oninput',
+			onUpdated({ form }) {
+				if (form.message.success) {
+					toast.success('Login Successfull');
+					goto('/login', {
+						replaceState: true
+					});
+				}
+			}
 		})
 	);
 
-	const { message, enhance } = form;
+	const { message, enhance, submitting } = form;
 </script>
 
 <div class="bg-background flex min-h-screen items-center justify-center p-4">
@@ -39,7 +50,11 @@
 					{$message?.text}
 				</div>
 			{/if}
-			<form method="POST" use:enhance class="space-y-4">
+			<form
+				method="POST"
+				use:enhance
+				class="space-y-6"
+			>
 				<CustomInput {form} name="full_name" label="Full Name" placeholder="John Doe" required />
 				<CustomInput
 					{form}
@@ -65,7 +80,12 @@
 					type="password"
 					required
 				/>
-				<Form.Button type="submit" class="w-full">Create account</Form.Button>
+				<Form.Button type="submit" class="w-full" disabled={$submitting}>
+					{#if $submitting}
+						<Spinner />
+					{/if}
+					Create account</Form.Button
+				>
 			</form>
 		</Card.Content>
 		<Card.Footer class="justify-center">
