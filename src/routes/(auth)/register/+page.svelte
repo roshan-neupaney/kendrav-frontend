@@ -1,21 +1,34 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
-	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
 	import { ZapIcon } from '@lucide/svelte';
-	import { toast } from 'svelte-sonner';
 	import type { PageProps } from './$types';
+	import { superForm } from 'sveltekit-superforms';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
+	import { RegisterSchema } from '$lib/services/register/register.validation';
+	import CustomInput from '$lib/components/custom/CustomInput.svelte';
+	import { untrack } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { toast } from 'svelte-sonner';
+	import Button from '$lib/components/custom/Button.svelte';
 
-	let { form }: PageProps = $props();
-	$effect(() => {
-		if (form?.success) {
-			toast.success(form.message);
-			goto('/login', { replaceState: true });
-		}
-	});
+	let { data }: PageProps = $props();
+
+	const form = untrack(() =>
+		superForm(data.form, {
+			validators: zod4Client(RegisterSchema),
+			validationMethod: 'oninput',
+			onUpdated({ form }) {
+				if (form.message.success) {
+					toast.success('Login Successfull');
+					goto('/login', {
+						replaceState: true
+					});
+				}
+			}
+		})
+	);
+
+	const { message, enhance, submitting } = form;
 </script>
 
 <div class="bg-background flex min-h-screen items-center justify-center p-4">
@@ -31,56 +44,44 @@
 			<Card.Title class="text-2xl font-bold">Create an account</Card.Title>
 		</Card.Header>
 		<Card.Content>
-			{#if form?.message}
+			{#if $message?.text}
 				<div class="bg-destructive/10 text-destructive mb-4 rounded-md p-3 text-sm">
-					{form.message}
+					{$message?.text}
 				</div>
 			{/if}
-			<form method="POST" use:enhance class="space-y-4">
-				<div class="space-y-2">
-					<Label for="name">Full Name</Label>
-					<Input
-						id="full_name"
-						name="full_name"
-						type="text"
-						placeholder="John Doe"
-						required
-						autocomplete="name"
-					/>
-				</div>
-				<div class="space-y-2">
-					<Label for="email">Email</Label>
-					<Input
-						id="email"
-						name="email"
-						type="email"
-						placeholder="john@example.com"
-						required
-						autocomplete="email"
-					/>
-				</div>
-				<div class="space-y-2">
-					<Label for="password">Password</Label>
-					<Input
-						id="password"
-						name="password"
-						type="password"
-						placeholder="8+ characters"
-						required
-						autocomplete="new-password"
-					/>
-				</div>
-				<div class="space-y-2">
-					<Label for="confirm_password">Confirm Password</Label>
-					<Input
-						id="confirm_password"
-						name="confirm_password"
-						type="password"
-						placeholder="Re-enter your password"
-						required
-					/>
-				</div>
-				<Button type="submit" class="w-full">Create account</Button>
+			<form method="POST" use:enhance class="space-y-6">
+				<CustomInput {form} name="full_name" label="Full Name" placeholder="John Doe" required />
+				<CustomInput
+					{form}
+					name="email"
+					label="Email"
+					placeholder="john@example.com"
+					type="email"
+					required
+				/>
+				<CustomInput
+					{form}
+					name="password"
+					label="Password"
+					placeholder="6+ characters"
+					type="password"
+					required
+				/>
+				<CustomInput
+					{form}
+					name="confirm_password"
+					label="Confirm Password"
+					placeholder="Re-enter your password"
+					type="password"
+					required
+				/>
+				<Button
+					label="Create account"
+					type="submit"
+					class="w-full"
+					isDisable={$submitting}
+					isLoading={$submitting}
+				/>
 			</form>
 		</Card.Content>
 		<Card.Footer class="justify-center">
