@@ -9,14 +9,16 @@
 	import CustomInput from '$lib/components/custom/CustomInput.svelte';
 	import { untrack } from 'svelte';
 
-let { data }: PageProps = $props();
+	let { data }: PageProps = $props();
 
-const form = untrack(() =>superForm(data.form, {
-    validators: zod4Client(RegisterSchema),
-    validationMethod: 'oninput'
-}));
+	const form = untrack(() =>
+		superForm(data.form, {
+			validators: zod4Client(RegisterSchema),
+			validationMethod: 'oninput'
+		})
+	);
 
-const { message, enhance } = form;
+	const { message, enhance } = form;
 </script>
 
 <div class="bg-background flex min-h-screen items-center justify-center p-4">
@@ -39,9 +41,30 @@ const { message, enhance } = form;
 			{/if}
 			<form method="POST" use:enhance class="space-y-4">
 				<CustomInput {form} name="full_name" label="Full Name" placeholder="John Doe" required />
-				<CustomInput {form} name="email" label="Email" placeholder="john@example.com" type="email" required />
-				<CustomInput {form} name="password" label="Password" placeholder="6+ characters" type="password" required />
-				<CustomInput {form} name="confirm_password" label="Confirm Password" placeholder="Re-enter your password" type="password" required />
+				<CustomInput
+					{form}
+					name="email"
+					label="Email"
+					placeholder="john@example.com"
+					type="email"
+					required
+				/>
+				<CustomInput
+					{form}
+					name="password"
+					label="Password"
+					placeholder="6+ characters"
+					type="password"
+					required
+				/>
+				<CustomInput
+					{form}
+					name="confirm_password"
+					label="Confirm Password"
+					placeholder="Re-enter your password"
+					type="password"
+					required
+				/>
 				<Form.Button type="submit" class="w-full">Create account</Form.Button>
 			</form>
 		</Card.Content>
