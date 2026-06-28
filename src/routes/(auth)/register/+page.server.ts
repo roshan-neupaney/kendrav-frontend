@@ -20,8 +20,6 @@ export const actions = {
 			if (!form.valid) {
 				return fail(400, { form });
 			}
-			console.log('first');
-
 			const res = await PostMethod<RegisterFormData, unknown>(RegisterApi, form.data, fetch);
 			console.log('res', res);
 			if (res.status === 201) {
