@@ -12,7 +12,6 @@
 
 	let { form }: PageProps = $props() ;
 	$effect(() => {
-		console.log(form?.message)
 		if(form?.success){
 			toast.success(form.message)
 			goto('/create/idea', {
