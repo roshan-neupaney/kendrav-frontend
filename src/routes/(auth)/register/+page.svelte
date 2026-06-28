@@ -5,12 +5,11 @@
 	import { superForm } from 'sveltekit-superforms';
 	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { RegisterSchema } from '$lib/services/register/register.validation';
-	import * as Form from '$lib/components/ui/form/index.js';
 	import CustomInput from '$lib/components/custom/CustomInput.svelte';
 	import { untrack } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
-	import { Spinner } from '$lib/components/ui/spinner/index';
+	import Button from '$lib/components/custom/Button.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -50,11 +49,7 @@
 					{$message?.text}
 				</div>
 			{/if}
-			<form
-				method="POST"
-				use:enhance
-				class="space-y-6"
-			>
+			<form method="POST" use:enhance class="space-y-6">
 				<CustomInput {form} name="full_name" label="Full Name" placeholder="John Doe" required />
 				<CustomInput
 					{form}
@@ -80,12 +75,13 @@
 					type="password"
 					required
 				/>
-				<Form.Button type="submit" class="w-full" disabled={$submitting}>
-					{#if $submitting}
-						<Spinner />
-					{/if}
-					Create account</Form.Button
-				>
+				<Button
+					label="Create account"
+					type="submit"
+					class="w-full"
+					isDisable={$submitting}
+					isLoading={$submitting}
+				/>
 			</form>
 		</Card.Content>
 		<Card.Footer class="justify-center">
