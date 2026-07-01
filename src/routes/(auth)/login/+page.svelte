@@ -1,26 +1,36 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import ZapIcon from '@lucide/svelte/icons/zap';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
 	import { Separator } from '$lib/components/ui/separator/index.js';
-	import { enhance } from '$app/forms';
 	import type { PageProps } from './$types';
 	import { toast } from 'svelte-sonner';
 	import { goto } from '$app/navigation';
+	import { untrack } from 'svelte';
+	import { superForm } from 'sveltekit-superforms';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
+	import { loginSchema } from '$lib/services/login/login.validation';
+	import CustomInput from '$lib/components/custom/CustomInput.svelte';
+	import Button from '$lib/components/custom/Button.svelte';
+	import { availableProviders } from '$lib/config/oauth';
 
-	let { form }: PageProps = $props() ;
-	$effect(() => {
-		if(form?.success){
-			toast.success(form.message)
-			goto('/create/idea', {
-				replaceState: true
-			});
-		} else if(form?.message){
-			toast.error(form?.message)
-		}
-	})
+	let { data }: PageProps = $props();
+
+	let providers = $derived.by(availableProviders);
+
+	const form = untrack(() =>
+		superForm(data.form, {
+			validators: zod4Client(loginSchema),
+			validationMethod: 'oninput',
+			onUpdated({ form }) {
+				toast.success('Login Successfull');
+				goto('/create/idea', {
+					replaceState: true
+				});
+			}
+		})
+	);
+
+	const { message, enhance, submitting } = form;
 </script>
 
 <svelte:head>
@@ -37,39 +47,39 @@
 					<ZapIcon class="size-6" />
 				</div>
 			</div>
-			<Card.Title class="text-2xl font-bold">Welcome back</Card.Title>
+			<Card.Title class="text-2xl font-bold">Welcome</Card.Title>
 			<Card.Description>Enter your credentials to access the dashboard</Card.Description>
 		</Card.Header>
 		<Card.Content>
-			<!-- {#if form?.message}
+			{#if $message?.text}
 				<div class="bg-destructive/10 text-destructive mb-4 rounded-md p-3 text-sm">
-					{form.message}
+					{$message?.text}
 				</div>
-			{/if} -->
-			<form method="POST" use:enhance class="space-y-4">
-				<div class="space-y-2">
-					<Label for="email">Email</Label>
-					<Input
-						id="email"
-						name="email"
-						type="text"
-						placeholder="Enter your email"
-						required
-						autocomplete="email"
-					/>
-				</div>
-				<div class="space-y-2">
-					<Label for="password">Password</Label>
-					<Input
-						id="password"
-						name="password"
-						type="password"
-						placeholder="Enter your password"
-						required
-						autocomplete="current-password"
-					/>
-				</div>
-				<Button type="submit" class="w-full">Sign in</Button>
+			{/if}
+			<form method="POST" use:enhance class="space-y-6">
+				<CustomInput
+					{form}
+					name="email"
+					label="Email"
+					placeholder="john@example.com"
+					required
+					type="email"
+				/>
+				<CustomInput
+					{form}
+					name="password"
+					label="Password"
+					placeholder="Enter your password"
+					required
+					type="password"
+				/>
+				<Button
+					type="submit"
+					class="w-full"
+					label="Sign In"
+					isDisable={$submitting}
+					isLoading={$submitting}
+				/>
 			</form>
 			<div class="relative my-4">
 				<div class="absolute inset-0 flex items-center">
@@ -80,7 +90,7 @@
 				</div>
 			</div>
 			<div class="flex flex-col gap-2">
-				<!-- {#if providers.includes("google")} -->
+				{#if providers.includes('google')}
 				<Button variant="outline" class="w-full" href="/login/google">
 					<svg class="mr-2 size-4" viewBox="0 0 24 24">
 						<path
@@ -101,9 +111,8 @@
 						/>
 					</svg>
 					Continue with Google
-					<!-- <GoogleLoginButton /> -->
 				</Button>
-				<!-- {/if} -->
+				{/if}
 				<!-- {#if providers.includes("github")}
 						<Button variant="outline" class="w-full" href="/login/github">
 							<svg class="mr-2 size-4" viewBox="0 0 24 24">

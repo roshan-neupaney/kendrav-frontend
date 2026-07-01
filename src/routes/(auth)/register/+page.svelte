@@ -19,7 +19,7 @@
 			validationMethod: 'oninput',
 			onUpdated({ form }) {
 				if (form.message.success) {
-					toast.success('Login Successfull');
+					toast.success('Account Created Successfully');
 					goto('/login', {
 						replaceState: true
 					});
@@ -30,6 +30,10 @@
 
 	const { message, enhance, submitting } = form;
 </script>
+
+<svelte:head>
+	<title>Create Account | Kendrav</title>
+</svelte:head>
 
 <div class="bg-background flex min-h-screen items-center justify-center p-4">
 	<Card.Root class="w-full max-w-md">

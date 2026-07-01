@@ -37,13 +37,13 @@ export const actions = {
 			}
 		} catch (error) {
 			return message(
-					form,
-					{
-						text: 'OOPS! Something went wrong!',
-						success: false
-					},
-					{ status: 400 }
-				);
+				form,
+				{
+					text: 'OOPS! Something went wrong!',
+					success: false
+				},
+				{ status: 400 }
+			);
 		}
 	}
 } satisfies Actions;

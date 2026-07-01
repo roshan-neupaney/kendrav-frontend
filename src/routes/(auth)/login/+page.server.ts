@@ -1,27 +1,29 @@
 import { loginSchema, type LoginFormData } from '$lib/services/login/login.validation';
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { formatErrors } from '$lib/utils/zod';
 import { LoginApi } from '$lib/constants/endpoints';
 import { PostMethod } from '$lib/constants/methods';
 import type { LoginResponse } from '$lib/services/login/login.types';
+import { superValidate, message } from 'sveltekit-superforms';
+import { zod4 } from 'sveltekit-superforms/adapters';
+import type { PageServerLoad } from './$types';
+import { availableProviders } from '$lib/config/oauth';
+
+export const load: PageServerLoad = async () => {
+	return {
+		form: await superValidate(zod4(loginSchema)),
+		availableProviders: availableProviders()
+	};
+};
 
 export const actions = {
 	default: async ({ request, fetch, cookies }) => {
+		const form = await superValidate(request, zod4(loginSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
 		try {
-			const formData = await request.formData();
-			const data = {
-				email: formData.get('email'),
-				password: formData.get('password')
-			};
-
-			const result = loginSchema.safeParse(data);
-			if (!result.success) {
-				return fail(400, {
-					errors: formatErrors(result.error)
-				});
-			}
-			const res = await PostMethod<LoginFormData, LoginResponse>(LoginApi, result.data, fetch);
+			const res = await PostMethod<LoginFormData, LoginResponse>(LoginApi, form.data, fetch);
 			if (res.status === 200) {
 				const access_token = res.data.access_token;
 				const refresh_token = res.data.refresh_token;
@@ -39,21 +41,29 @@ export const actions = {
 						httpOnly: true
 					});
 				}
-				return {
-					message: res.message,
+				return message(form, {
+					text: res.message,
 					success: true
-				};
-			} else {
-				return fail(400, {
-					message: res.message,
-					success: false
 				});
+			} else {
+				return message(
+					form,
+					{
+						text: res.message,
+						success: false
+					},
+					{ status: 400 }
+				);
 			}
 		} catch (error) {
-			return fail(400, {
-					message: 'Something went wrong!',
+			return message(
+				form,
+				{
+					text: 'Something went wrong!',
 					success: false
-				});
+				},
+				{ status: 400 }
+			);
 		}
 	}
 } satisfies Actions;
