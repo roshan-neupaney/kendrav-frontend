@@ -9,3 +9,7 @@ export const google =
     googleClientId && googleClientSecret
         ? new arctic.Google(googleClientId, googleClientSecret, redirectURI)
         : null;
+
+export const providers = {
+    google
+}

@@ -8,11 +8,12 @@ import { superValidate, message } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad } from './$types';
 import { availableProviders } from '$lib/config/oauth';
+import { google, providers } from '$lib/services/oauth';
 
 export const load: PageServerLoad = async () => {
 	return {
 		form: await superValidate(zod4(loginSchema)),
-		availableProviders: availableProviders()
+		availableProviders: availableProviders(providers)
 	};
 };
 
