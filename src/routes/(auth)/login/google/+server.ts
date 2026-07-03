@@ -1,7 +1,7 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import * as arctic from 'arctic';
-import { google } from '$lib/config/oauth';
+import { google } from '$lib/services/oauth';
 
 export const GET: RequestHandler = async ({ cookies }) => {
 	const state = arctic.generateState();

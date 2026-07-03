@@ -1,8 +1,8 @@
 import { error, isRedirect, redirect } from '@sveltejs/kit';
 import type { RequestHandler } from '../$types';
-import { google } from '$lib/config/oauth';
 import axios from 'axios';
 import { env } from '$env/dynamic/private';
+import { google } from '$lib/services/oauth';
 
 export const GET: RequestHandler = async ({ cookies, url }) => {
 	try {
