@@ -21,10 +21,12 @@
 			validators: zod4Client(loginSchema),
 			validationMethod: 'oninput',
 			onUpdated({ form }) {
-				toast.success('Login Successfull');
-				goto('/create/idea', {
-					replaceState: true
-				});
+				if (form.message.success) {
+					toast.success('Login Successfull');
+					goto('/create/idea', {
+						replaceState: true
+					});
+				}
 			}
 		})
 	);
