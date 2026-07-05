@@ -47,7 +47,6 @@ export const GET: RequestHandler = async ({ cookies, url }) => {
 				maxAge: 60 * 60 * 24 * 7,
 				secure: false
 			});
-            console.log('hello')
 			redirect(302, '/create/idea');
 		} else {
 			redirect(302, '/login');
