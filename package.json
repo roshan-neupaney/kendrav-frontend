@@ -65,6 +65,10 @@
 	"overrides": {
 		"sveltekit-superforms": {
 			"typebox": "1.2.19"
-		}
+		},
+		"estree-walker": "^3.0.3"
+	},
+	"resolutions": {
+		"estree-walker": "^3.0.3"
 	}
 }
