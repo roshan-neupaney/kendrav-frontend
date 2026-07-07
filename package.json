@@ -60,6 +60,7 @@
 		"axios": "^1.18.0",
 		"svelte-sonner": "^1.1.1",
 		"typebox": "1.2.19",
+		"vercel": "^54.21.1",
 		"zod": "^4.4.3"
 	},
 	"overrides": {
