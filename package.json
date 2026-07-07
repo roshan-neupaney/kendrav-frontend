@@ -66,12 +66,12 @@
 	"overrides": {
 		"sveltekit-superforms": {
 			"typebox": "1.2.19"
-		},
-		"estree-walker": "3.0.3",
-		"@tailwindcss/node/**/estree-walker": "3.0.3",
-		"**/estree-walker": "3.0.3"
+		}
 	},
 	"resolutions": {
 		"**/estree-walker": "3.0.3"
+	},
+	"engines": {
+		"node": "22.x"
 	}
 }
