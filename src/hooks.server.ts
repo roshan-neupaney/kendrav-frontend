@@ -1,13 +1,19 @@
 import { LoginApi, RegisterApi } from "$lib/constants/endpoints";
 import { isTokenExpired } from "$lib/helpers/checkToken";
-import { redirect, type HandleFetch } from "@sveltejs/kit"
+import { redirect, type Handle, type HandleFetch } from "@sveltejs/kit"
 
 const publicRoutes = [RegisterApi];
+
+export const handle: Handle = async ({ event, resolve }) => {
+    // console.log(event)
+    return await resolve(event);
+}
 
 
 
 export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
     const isPublicRoute = publicRoutes.some(route => request.url.includes(route));
+    console.log('request', request)
     if( isPublicRoute ) {
         return await fetch(request);
     }
