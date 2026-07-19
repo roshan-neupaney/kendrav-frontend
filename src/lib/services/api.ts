@@ -1,12 +1,10 @@
-import { env } from '$env/dynamic/private';
+import { BASE_URL } from '$lib/constants/envVariables';
 
 export interface BaseResponse <T> {
     status: number;
     message: string | string[];
     data: T
 }
-
-const baseUrl = env.BASE_URL;
 
 const createApi = {
 	post: async <P, R>(
@@ -15,9 +13,23 @@ const createApi = {
 		fetchFn: typeof fetch = fetch,
 		headers?: { [key: string]: string }
 	): Promise<BaseResponse<R>> => {
-		const res = await fetchFn(`${baseUrl}/${url}`, {
+		const res = await fetchFn(`${BASE_URL}/${url}`, {
 			method: 'POST',
 			body: JSON.stringify(payload),
+			headers: {
+				...(headers ? headers : {}),
+				'Content-Type': headers?.['Content-Type'] ? headers?.['Content-Type'] : 'application/json'
+			}
+		});
+		return res.json();
+	},
+	get: async <R>(
+		url: string,
+		fetchFn: typeof fetch = fetch,
+		headers?: { [key: string]: string }
+	): Promise<BaseResponse<R>> => {
+		const res = await fetchFn(`${BASE_URL}/${url}`, {
+			method: 'GET',
 			headers: {
 				...(headers ? headers : {}),
 				'Content-Type': headers?.['Content-Type'] ? headers?.['Content-Type'] : 'application/json'

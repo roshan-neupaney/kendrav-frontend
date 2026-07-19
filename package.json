@@ -59,6 +59,7 @@
 		"@lucide/svelte": "^1.21.0",
 		"arctic": "^3.7.0",
 		"axios": "^1.18.0",
+		"jwt-decode": "^4.0.0",
 		"svelte-sonner": "^1.1.1",
 		"typebox": "1.2.19",
 		"vercel": "^54.21.1",

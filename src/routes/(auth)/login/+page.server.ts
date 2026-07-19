@@ -8,7 +8,7 @@ import { superValidate, message } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad } from './$types';
 import { availableProviders } from '$lib/config/oauth';
-import { google, providers } from '$lib/services/oauth';
+import { providers } from '$lib/services/oauth';
 
 export const load: PageServerLoad = async () => {
 	return {
