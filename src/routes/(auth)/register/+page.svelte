@@ -68,7 +68,7 @@
 					name="password"
 					label="Password"
 					placeholder="6+ characters"
-					type="password"
+					// type="password"
 					required
 				/>
 				<CustomInput
@@ -76,7 +76,7 @@
 					name="confirm_password"
 					label="Confirm Password"
 					placeholder="Re-enter your password"
-					type="password"
+					// type="password"
 					required
 				/>
 				<Button
