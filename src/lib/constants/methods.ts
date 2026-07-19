@@ -10,3 +10,14 @@ export const PostMethod = async <P, R>(url: string, payload: P, fetchFn: typeof 
 			: '';
 	return { ...res, message };
 };
+
+export const GetMethod = async <R>(url: string, fetchFn: typeof fetch = fetch, headers?: { [key: string]: string }) => {
+	const res = await api.get<R>(url, fetchFn, headers);
+
+	const message = Array.isArray(res.message)
+		? res.message[0]
+		: typeof res.message
+			? res.message
+			: '';
+	return { ...res, message };
+};
