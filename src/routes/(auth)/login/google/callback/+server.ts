@@ -27,7 +27,7 @@ export const GET: RequestHandler = async ({ cookies, url }) => {
 		const base_url = env.BASE_URL;
 
 		const res = await axios.post(
-			`${base_url}/auth/google/`,
+			`${base_url}/v1/auth/google/`,
 			{
 				access_token: accessToken
 			}
