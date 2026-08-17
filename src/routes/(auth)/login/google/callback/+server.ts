@@ -22,19 +22,20 @@ export const GET: RequestHandler = async ({ cookies, url }) => {
 		if (!google) error(404, 'Google Provider not found');
 
 		const tokens = await google.validateAuthorizationCode(code, codeVerifier);
-		const accessToken = tokens.accessToken();
+		const idToken = tokens.idToken();
 
 		const base_url = env.BASE_URL;
 
 		const res = await axios.post(
 			`${base_url}/v1/auth/google/`,
 			{
-				access_token: accessToken
+				id_token: idToken,
+				device_id: 'device123'
 			}
 		);
-		if (res?.status === 200 && (res?.data?.access || res?.data?.refresh)) {
-			const access_token = res?.data?.access;
-			const refresh_token = res?.data?.refresh;
+		if (res?.status === 200 && (res?.data?.data?.access_token || res?.data?.data?.refresh_token)) {
+			const access_token = res?.data?.data?.access_token;
+			const refresh_token = res?.data?.data?.refresh_token;
 			cookies.set('access_token', access_token, {
 				path: '/',
 				httpOnly: true,
