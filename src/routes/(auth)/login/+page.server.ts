@@ -24,7 +24,9 @@ export const actions = {
 			return fail(400, { form });
 		}
 		try {
-			const res = await PostMethod<LoginFormData, LoginResponse>(LoginApi, form.data, fetch);
+			const res = await PostMethod<LoginFormData, LoginResponse>(LoginApi, form.data, fetch, {
+				'deviceId': 'hello'
+			});
 			if (res.status === 200) {
 				const access_token = res.data.access_token;
 				const refresh_token = res.data.refresh_token;
