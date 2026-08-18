@@ -1,3 +1,4 @@
+<!-- login/+page.svelte -->
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import ZapIcon from '@lucide/svelte/icons/zap';
@@ -88,7 +89,7 @@
 						<Separator class="w-full" />
 					</div>
 					<div class="relative flex justify-center text-xs uppercase">
-						<span class="bg-card text-muted-foreground px-2">Or continue with</span>
+						<span class="bg-card text-muted-foreground px-2">Or</span>
 					</div>
 				</div>
 				<div class="flex flex-col gap-2">
