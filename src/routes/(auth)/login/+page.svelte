@@ -73,7 +73,7 @@
 					label="Password"
 					placeholder="Enter your password"
 					required
-					// type="password"
+					type="password"
 				/>
 				<Button
 					type="submit"
