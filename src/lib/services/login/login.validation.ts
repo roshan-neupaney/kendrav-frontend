@@ -10,7 +10,7 @@ const passwordSchema = z
 
 export const loginSchema = z.object({
 	email: z.email('Invalid email format'),
-	password: passwordSchema
+	password: passwordSchema,
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;

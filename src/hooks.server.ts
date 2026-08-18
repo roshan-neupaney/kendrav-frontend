@@ -1,6 +1,38 @@
 import { TokenRefreshApi } from '$lib/constants/endpoints';
 import { BASE_URL } from '$lib/constants/envVariables';
-import { redirect, type HandleFetch } from '@sveltejs/kit';
+import { pageRoutes } from '$lib/constants/pageRoutes';
+import { redirect, type Handle, type HandleFetch } from '@sveltejs/kit';
+
+export const handle: Handle = async ({ event, resolve }) => {
+	const path = event.url.pathname;
+	const access_token = event.cookies.get('access_token');
+	const refresh_token = event.cookies.get('refresh_token');
+	console.log(path)
+
+	const isLoggedIn = !!(access_token || refresh_token);
+	const currentRoute = pageRoutes.find((item) => {
+		const workspace_slug = event?.params?.workspace_slug;
+		let itemPath;
+		if (workspace_slug) {
+			itemPath = item.href.replace(':workspace_slug', event?.params?.workspace_slug ?? '');
+		} else {
+			itemPath = item.href;
+		}
+		return path.includes(itemPath)
+	});
+
+	const isProtected = currentRoute?.is_protected;
+	const isAuthPage = currentRoute?.is_auth_page;
+
+	if(isProtected && !isLoggedIn){
+		throw redirect(302, '/login')
+	}
+	if(isAuthPage && isLoggedIn){
+		throw redirect(302, '/home')
+	}
+	
+	return resolve(event);
+};
 
 export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 	const access_token = event.cookies.get('access_token');

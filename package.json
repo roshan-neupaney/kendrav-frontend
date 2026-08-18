@@ -57,10 +57,12 @@
 	},
 	"dependencies": {
 		"@lucide/svelte": "^1.21.0",
+		"@types/ua-parser-js": "^0.7.39",
 		"arctic": "^3.7.0",
 		"axios": "^1.18.0",
 		"jwt-decode": "^4.0.0",
 		"svelte-sonner": "^1.1.1",
+		"ua-parser-js": "^2.0.10",
 		"vercel": "^54.21.1",
 		"zod": "^4.4.3"
 	}
