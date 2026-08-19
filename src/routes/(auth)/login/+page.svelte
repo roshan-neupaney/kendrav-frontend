@@ -19,12 +19,13 @@
 
 	const form = untrack(() =>
 		superForm(data.form, {
+			invalidateAll: false,
 			validators: zod4Client(loginSchema),
 			validationMethod: 'oninput',
 			onUpdated({ form }) {
 				if (form.message.success) {
 					toast.success('Login Successfull');
-					goto('/home', {
+					goto('/personal_12/home', {
 						replaceState: true
 					});
 				}

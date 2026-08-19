@@ -65,6 +65,9 @@ export const actions = {
 				});
 				return message(form, {
 					text: res.message,
+					data: {
+						...res.data, device_id
+					},
 					success: true
 				});
 			} else {
