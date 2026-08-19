@@ -11,6 +11,7 @@
 		class: className = '',
 		href,
 		variant = 'default',
+		loadingText = '',
 		children
 	}: {
 		label?: string;
@@ -20,6 +21,7 @@
 		class?: string;
 		href?: string;
 		variant?: 'default' | 'link' | 'outline' | 'secondary' | 'ghost' | 'destructive';
+		loadingText?: string;
 		children?: Snippet;
 	} = $props();
 </script>
@@ -31,6 +33,10 @@
 	{#if children}
 		{@render children()}
 	{:else}
-		{label}
+		{#if isLoading}
+			{loadingText}
+		{:else}
+			{label}
+		{/if}
 	{/if}
 </Form.Button>
