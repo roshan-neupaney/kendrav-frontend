@@ -22,7 +22,23 @@
 			validators: zod4Client(loginSchema),
 			validationMethod: 'oninput',
 			onUpdated({ form }) {
+				console.log(form);
 				if (form.message.success) {
+					const access_token = form.message.data.access_token;
+					const refresh_token = form.message.data.refresh_token;
+					const device_id = form.message.data.device_id;
+
+					if (typeof document !== 'undefined') {
+						if (access_token) {
+							console.log('first', access_token)
+							// document.cookie = `access_token=${access_token}; path=/; max-age=${60 * 15}; httpOnly=True`;
+							document.cookie = "username=JohnDoe; path=/; max-age=31536000; SameSite=Lax";
+						}
+						if (refresh_token)
+							document.cookie = `refresh_token=${refresh_token}; path=/; max-age=${60 * 60 * 24 * 7}; httpOnly=True`;
+						if (device_id)
+							document.cookie = `device_id=${device_id}; path=/; max-age=${60 * 60 * 24 * 365}; httpOnly=True`;
+					}
 					toast.success('Login Successfull');
 					goto('/personal_12/home', {
 						replaceState: true
