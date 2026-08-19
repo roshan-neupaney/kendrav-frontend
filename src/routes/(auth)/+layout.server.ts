@@ -6,7 +6,6 @@ export const load: LayoutServerLoad = async ({ cookies }) => {
 //     const refresh_token = cookies.get('refresh_token')
 //     if (access_token || refresh_token) {
 //         // setTimeout(() => {
-//         //     console.log('hello')
 //         // }, 0)
 //         throw redirect(302, '/personal_12/home')
 //     }

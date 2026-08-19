@@ -15,7 +15,6 @@ export const load: PageServerLoad = async () => {
 export const actions = {
 	default: async (event) => {
 		const { request, fetch } = event;
-        console.log('hello')
 
 		const form = await superValidate(request, zod4(ForgotPasswordSchema));
 		if (!form.valid) {
