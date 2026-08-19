@@ -18,6 +18,7 @@
 
 	const form = untrack(() =>
 		superForm(data.form, {
+			invalidateAll: false,
 			validators: zod4Client(RegisterSchema),
 			validationMethod: 'oninput',
 			onUpdated({ form }) {

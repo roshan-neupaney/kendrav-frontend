@@ -42,27 +42,27 @@ export const actions = {
 				LoginResponse
 			>(LoginApi, { ...form.data, device_id, device_name, location }, fetch);
 			if (res.status === 200) {
-				// const access_token = res.data.access_token;
-				// const refresh_token = res.data.refresh_token;
-				// if (access_token) {
-				// 	cookies.set('access_token', access_token, {
-				// 		path: '/',
-				// 		maxAge: 60 * 15,
-				// 		httpOnly: true
-				// 	});
-				// }
-				// if (refresh_token) {
-				// 	cookies.set('refresh_token', refresh_token, {
-				// 		path: '/',
-				// 		maxAge: 60 * 60 * 24 * 7,
-				// 		httpOnly: true
-				// 	});
-				// }
-				// cookies.set('device_id', device_id, {
-				// 	path: '/',
-				// 	maxAge: 60 * 60 * 24 * 365,
-				// 	httpOnly: false
-				// });
+				const access_token = res.data.access_token;
+				const refresh_token = res.data.refresh_token;
+				if (access_token) {
+					cookies.set('access_token', access_token, {
+						path: '/',
+						maxAge: 60 * 15,
+						httpOnly: true
+					});
+				}
+				if (refresh_token) {
+					cookies.set('refresh_token', refresh_token, {
+						path: '/',
+						maxAge: 60 * 60 * 24 * 7,
+						httpOnly: true
+					});
+				}
+				cookies.set('device_id', device_id, {
+					path: '/',
+					maxAge: 60 * 60 * 24 * 365,
+					httpOnly: false
+				});
 				return message(form, {
 					text: res.message,
 					data: {
