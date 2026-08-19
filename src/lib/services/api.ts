@@ -13,7 +13,6 @@ const createApi = {
 		fetchFn: typeof fetch = fetch,
 		headers?: { [key: string]: string }
 	): Promise<BaseResponse<R>> => {
-		console.log(headers)
 		const res = await fetchFn(`${BASE_URL}/${url}`, {
 			method: 'POST',
 			body: JSON.stringify(payload),

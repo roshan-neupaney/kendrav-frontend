@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
-	import { MailIcon } from '@lucide/svelte';
+	import { KeyIcon } from '@lucide/svelte';
 	import type { PageProps } from './$types';
 	import { superForm } from 'sveltekit-superforms';
 	import { zod4Client } from 'sveltekit-superforms/adapters';
@@ -8,17 +8,21 @@
 	import { untrack } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import Button from '$lib/components/custom/Button.svelte';
-	import { ForgotPasswordSchema } from '$lib/services/forgot-password/forgotPassword.validation';
+	import { ResetPasswordSchema } from '$lib/services/reset-password/resetPassword.validation';
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 
 	let { data }: PageProps = $props();
+	let token = $derived(page.url.searchParams.get('token'));
 
 	const form = untrack(() =>
 		superForm(data.form, {
-			validators: zod4Client(ForgotPasswordSchema),
+			validators: zod4Client(ResetPasswordSchema),
 			validationMethod: 'oninput',
 			onUpdated({ form }) {
 				if (form.message.success) {
 					toast.success(form.message?.text);
+					goto('/login', { replaceState: true });
 				}
 			}
 		})
@@ -28,7 +32,7 @@
 </script>
 
 <svelte:head>
-	<title>Forgot Password | Kendrav</title>
+	<title>Reset Password | Kendrav</title>
 </svelte:head>
 
 <div class="bg-background flex min-h-screen items-center justify-center p-4">
@@ -38,34 +42,41 @@
 				<div
 					class="bg-primary text-primary-foreground flex size-12 items-center justify-center rounded-xl"
 				>
-					<MailIcon class="size-6" />
+					<KeyIcon class="size-6" />
 				</div>
 			</div>
-			<Card.Title class="text-2xl font-bold">Forgot password?</Card.Title>
-			<Card.Description>Enter your email and we'll send you a reset link</Card.Description>
+			<Card.Title class="text-2xl font-bold">Reset password?</Card.Title>
+			<Card.Description>Enter your new password below</Card.Description>
 		</Card.Header>
 		<Card.Content>
-			{#if $message?.success}
-				<div class="mb-4 rounded-md bg-green-500/10 p-3 text-sm text-green-700 dark:text-green-400">
-					A reset link has been sent to your email.
+			{#if !token}
+				<div class="items-center flex flex-col">
+					<div
+						class="mb-4 rounded-md bg-green-500/10 p-3 text-sm text-red-500 dark:text-green-400 text-center w-full"
+					>
+						Reset Link is invalid or expired.
+					</div>
+					<Button label="Request a new link" href="/forgot-password" variant="outline" class="w-fit" />
+				</div>
+			{:else if !$message?.success && $message?.text}
+				<div class="bg-destructive/10 text-destructive mb-4 rounded-md p-3 text-sm">
+					{$message?.text}
 				</div>
 			{:else}
 				<form method="POST" use:enhance class="space-y-6">
 					<CustomInput
 						{form}
-						name="email"
-						label="Email"
-						placeholder="your@example.com"
-						type="email"
-						required
+						name="new_password"
+						placeholder="Enter new password"
+						type="password"
 					/>
 					<Button
-						label="Send Reset Link"
+						label="Reset Password"
 						type="submit"
 						class="w-full"
 						isDisable={$submitting}
 						isLoading={$submitting}
-                        loadingText='Sending...'
+						loadingText="Sending..."
 					/>
 				</form>
 			{/if}
