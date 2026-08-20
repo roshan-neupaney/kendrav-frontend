@@ -19,6 +19,8 @@
 			onUpdated({ form }) {
 				if (form.message.success) {
 					toast.success(form.message?.text);
+				} else {
+					toast.error(form.message?.text);
 				}
 			}
 		})
