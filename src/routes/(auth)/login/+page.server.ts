@@ -44,6 +44,7 @@ export const actions = {
 			if (res.status === 200) {
 				const access_token = res.data.access_token;
 				const refresh_token = res.data.refresh_token;
+				const workspace_slug = res.data.workspace_slug;
 				if (access_token) {
 					cookies.set('access_token', access_token, {
 						path: '/',
@@ -66,7 +67,7 @@ export const actions = {
 				return message(form, {
 					text: res.message,
 					data: {
-						...res.data,
+						workspace_slug,
 						device_id
 					},
 					success: true
