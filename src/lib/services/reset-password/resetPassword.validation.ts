@@ -8,9 +8,8 @@ const passwordSchema = z
   .regex(/[0-9]/, { message: "Password must contain at least one number" })
   .regex(/[^a-zA-Z0-9]/, { message: "Password must contain at least one special character" });
 
-export const loginSchema = z.object({
-	email: z.email('Invalid email format'),
-	password: passwordSchema,
+export const ResetPasswordSchema = z.object({
+    new_password: passwordSchema,
 });
 
-export type LoginFormData = z.infer<typeof loginSchema>;
+export type ResetPasswordFormData = z.infer<typeof ResetPasswordSchema>;

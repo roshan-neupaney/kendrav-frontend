@@ -1,3 +1,4 @@
+<!-- login/+page.svelte -->
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import ZapIcon from '@lucide/svelte/icons/zap';
@@ -18,12 +19,13 @@
 
 	const form = untrack(() =>
 		superForm(data.form, {
+			invalidateAll: false,
 			validators: zod4Client(loginSchema),
 			validationMethod: 'oninput',
 			onUpdated({ form }) {
 				if (form.message.success) {
 					toast.success('Login Successfull');
-					goto('/home', {
+					goto('/personal_12/home', {
 						replaceState: true
 					});
 				}
@@ -72,7 +74,7 @@
 					label="Password"
 					placeholder="Enter your password"
 					required
-					// type="password"
+					type="password"
 				/>
 				<Button
 					type="submit"
@@ -88,7 +90,7 @@
 						<Separator class="w-full" />
 					</div>
 					<div class="relative flex justify-center text-xs uppercase">
-						<span class="bg-card text-muted-foreground px-2">Or continue with</span>
+						<span class="bg-card text-muted-foreground px-2">Or</span>
 					</div>
 				</div>
 				<div class="flex flex-col gap-2">

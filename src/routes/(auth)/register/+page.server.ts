@@ -5,22 +5,63 @@ import { PostMethod } from '$lib/constants/methods';
 import { RegisterApi } from '$lib/constants/endpoints';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
+import { availableProviders } from '$lib/config/oauth';
+import { providers } from '$lib/services/oauth';
+import { UAParser } from 'ua-parser-js';
+import { getLocation } from '$lib/utils';
+import type { RegisterResponse } from '$lib/services/register/register.types';
 
 export const load: PageServerLoad = async () => {
 	return {
-		form: await superValidate(zod4(RegisterSchema))
+		form: await superValidate(zod4(RegisterSchema)),
+		availableProviders: availableProviders(providers)
 	};
 };
 
 export const actions = {
-	default: async ({ request, fetch }) => {
+	default: async (event) => {
+		const { request, fetch, cookies } = event;
+
+		const userAgent = request.headers.get('user-agent') || '';
+		const parser = new UAParser(userAgent);
+		const device_name = `${parser.getBrowser().name} on ${parser.getOS().name}`;
+
+		const ip = event.getClientAddress();
+		const location = await getLocation(ip);
+
+		const device_id = cookies.get('device_id') || crypto.randomUUID();
+
 		const form = await superValidate(request, zod4(RegisterSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
 		try {
-			const res = await PostMethod<RegisterFormData, unknown>(RegisterApi, form.data, fetch);
+			const res = await PostMethod<
+				RegisterFormData & { device_id: string; device_name: string; location: string },
+				RegisterResponse
+			>(RegisterApi, { ...form.data, device_id, device_name, location }, fetch);
 			if (res.status === 201) {
+				const access_token = res.data.access_token;
+				const refresh_token = res.data.refresh_token;
+				if (access_token) {
+					cookies.set('access_token', access_token, {
+						path: '/',
+						maxAge: 60 * 15,
+						httpOnly: true
+					});
+				}
+				if (refresh_token) {
+					cookies.set('refresh_token', refresh_token, {
+						path: '/',
+						maxAge: 60 * 60 * 24 * 7,
+						httpOnly: true
+					});
+				}
+				cookies.set('device_id', device_id, {
+					path: '/',
+					maxAge: 60 * 60 * 24 * 365,
+					httpOnly: false
+				});
 				return message(form, {
 					text: res.message,
 					success: true

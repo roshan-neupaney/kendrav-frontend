@@ -1,0 +1,48 @@
+export const pageRoutes = [
+    {
+        label: 'Login',
+        href: '/login',
+        icon: null,
+        permissions: [],
+        is_protected: false,
+        sidebar_item: false,
+        is_auth_page: true,
+    },
+    {
+        label: 'Register',
+        href: '/register',
+        icon: null,
+        permissions: [],
+        is_protected: false,
+        sidebar_item: false,
+        is_auth_page: true,
+    },
+    {
+        label: 'Forgot Password',
+        href: '/forgot-password',
+        icon: null,
+        permissions: [],
+        is_protected: false,
+        sidebar_item: false,
+        is_auth_page: true,
+    },
+    {
+        label: 'Reset Password',
+        href: '/reset-password',
+        icon: null,
+        permissions: [],
+        is_protected: false,
+        sidebar_item: false,
+        is_auth_page: true,
+    },
+    {
+        label: 'Home',
+        href: '/:workspace_slug/home',
+        icon: null,
+        permissions: [],
+        is_protected: true,
+        sidebar_item: false,
+        is_auth_page: false,
+    },
+
+]
