@@ -64,6 +64,10 @@ export const actions = {
 				});
 				return message(form, {
 					text: res.message,
+					data: {
+						workspace_slug: res.data.workspace_slug,
+						device_id
+					},
 					success: true
 				});
 			} else {

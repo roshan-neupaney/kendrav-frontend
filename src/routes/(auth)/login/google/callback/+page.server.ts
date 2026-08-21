@@ -74,7 +74,13 @@ export const load: PageServerLoad = async (event) => {
 				maxAge: 60 * 60 * 24 * 365,
 				httpOnly: false
 			});
-			return { success: true };
+			return {
+				success: true,
+				message: {
+					workspace_slug: res.data.workspace_slug,
+					device_id
+				}
+			};
 		} else {
 			return { success: false };
 		}

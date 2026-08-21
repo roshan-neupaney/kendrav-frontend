@@ -24,8 +24,14 @@
 			validationMethod: 'oninput',
 			onUpdated({ form }) {
 				if (form.message.success) {
+					const workspace_slug = form.message?.data?.workspace_slug;
+					const device_id = form.message?.data?.device_id;
+
+					if (workspace_slug) localStorage.setItem('workspace_slug', workspace_slug);
+					if (device_id) localStorage.setItem('device_id', device_id);
+
 					toast.success('Login Successfull');
-					goto('/personal_12/home', {
+					goto(`/${workspace_slug}/home`, {
 						replaceState: true
 					});
 				}
