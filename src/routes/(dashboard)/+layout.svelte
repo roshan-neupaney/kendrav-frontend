@@ -1,11 +1,15 @@
 <script>
-	import { goto } from '$app/navigation';
+	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+    import AppSidebar from "$lib/components/app-sidebar.svelte";
 
     let { children } = $props();
-    console.log('hlello')
-    // goto('/asdf/home')
+
 </script>
 
-<div>hello</div>
-
-{@render children()}
+<Sidebar.Provider>
+  <AppSidebar />
+  <main>
+    <Sidebar.Trigger />
+    {@render children?.()}
+  </main>
+</Sidebar.Provider>

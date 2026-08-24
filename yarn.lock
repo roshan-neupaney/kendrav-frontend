@@ -679,10 +679,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@lucide/svelte@^1.21.0":
-  version "1.23.0"
-  resolved "https://registry.yarnpkg.com/@lucide/svelte/-/svelte-1.23.0.tgz#32370f46e45fa7dde28157e63919392666b9c805"
-  integrity sha512-3LQbKXx9vId6Nx4E2Nu2qwgJfdmr5+CVeVJbxe5cy+HcnCRd9QVVtZXqvgBYAV1OJrPmQAf9/3gJWLCpASC/Ng==
+"@lucide/svelte@^1.34.0":
+  version "1.34.0"
+  resolved "https://registry.yarnpkg.com/@lucide/svelte/-/svelte-1.34.0.tgz#91e71229e61990e91505835720732d01b877444e"
+  integrity sha512-sHFL8KVSaPXv0dsmdUTq4q/tj8clT2XYejnoSg0mHObpXWn/9SfET4f14v/7VOba1IsbPIW9+sWaq+Qq1wTdNA==
 
 "@mapbox/node-pre-gyp@^2.0.0":
   version "2.0.3"
@@ -4496,10 +4496,10 @@ tailwind-merge@^3.0.0, tailwind-merge@^3.5.0:
   resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-3.6.0.tgz#88d83242d1dd7bc847223f73dcf210dd1f2ee11c"
   integrity sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==
 
-tailwind-variants@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/tailwind-variants/-/tailwind-variants-3.2.2.tgz#3ac8ccc735cae8b6f416330070f5f7437a77a0f3"
-  integrity sha512-Mi4kHeMTLvKlM98XPnK+7HoBPmf4gygdFmqQPaDivc3DpYS6aIY6KiG/PgThrGvii5YZJqRsPz0aPyhoFzmZgg==
+tailwind-variants@^3.3.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/tailwind-variants/-/tailwind-variants-3.3.1.tgz#7eca8fac48ad83fe9c9e1424a379e8411ed3f5ca"
+  integrity sha512-4pAvwUtM4HKBiRZftncAbpn6V9Hhwoa5Fl7O2u5zbp7Z5Cvu+/o/6+176WY3WCEES209543quG8zFIcXCsc5Jw==
 
 tailwindcss@4.3.2, tailwindcss@^4.3.2:
   version "4.3.2"
