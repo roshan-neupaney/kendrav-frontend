@@ -5,4 +5,5 @@ export const ForgotPasswordApi = 'v1/auth/forgot-password/';
 export const ResetPasswordApi = 'v1/auth/reset-password/';
 export const GoogleAuthApi = 'v1/auth/google/';
 
-export const UserProfileApi = 'v1/users/user-profile/'
+export const UserProfileApi = 'v1/users/me/'
+
