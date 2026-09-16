@@ -43,6 +43,7 @@ export const actions = {
 			if (res.status === 201) {
 				const access_token = res.data.access_token;
 				const refresh_token = res.data.refresh_token;
+				const workspace_slug = res.data.workspace_slug;
 				if (access_token) {
 					cookies.set('access_token', access_token, {
 						path: '/',
@@ -62,6 +63,13 @@ export const actions = {
 					maxAge: 60 * 60 * 24 * 365,
 					httpOnly: false
 				});
+				if (workspace_slug) {
+					cookies.set('workspace_slug', workspace_slug, {
+						path: '/',
+						maxAge: 60 * 60 * 24 * 365,
+						httpOnly: false
+					});
+				}
 				return message(form, {
 					text: res.message,
 					data: {

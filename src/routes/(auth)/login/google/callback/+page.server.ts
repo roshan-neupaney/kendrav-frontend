@@ -52,6 +52,7 @@ export const load: PageServerLoad = async (event) => {
 		if (res?.status === 200 && (res?.data?.access_token || res?.data?.refresh_token)) {
 			const access_token = res?.data?.access_token;
 			const refresh_token = res?.data?.refresh_token;
+			const workspace_slug = res.data.workspace_slug;
 
 			if (access_token) {
 				cookies.set('access_token', access_token, {
@@ -74,10 +75,18 @@ export const load: PageServerLoad = async (event) => {
 				maxAge: 60 * 60 * 24 * 365,
 				httpOnly: false
 			});
+			if (workspace_slug) {
+				cookies.set('workspace_slug', workspace_slug, {
+					path: '/',
+					maxAge: 60 * 60 * 24 * 365,
+					httpOnly: false
+				});
+			}
+
 			return {
 				success: true,
 				message: {
-					workspace_slug: res.data.workspace_slug,
+					workspace_slug: workspace_slug,
 					device_id
 				}
 			};

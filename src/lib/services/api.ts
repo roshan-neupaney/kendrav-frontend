@@ -1,9 +1,9 @@
 import { BASE_URL } from '$lib/constants/envVariables';
 
-export interface BaseResponse <T> {
-    status: number;
-    message: string | string[];
-    data: T
+export interface BaseResponse<T> {
+	status: number;
+	message: string | string[];
+	data: T;
 }
 
 const createApi = {
@@ -21,7 +21,7 @@ const createApi = {
 				'Content-Type': headers?.['Content-Type'] ? headers?.['Content-Type'] : 'application/json'
 			}
 		});
-		return res.json();
+		return res?.json();
 	},
 	get: async <R>(
 		url: string,
@@ -39,7 +39,4 @@ const createApi = {
 	}
 };
 
-export {
-    createApi as api
-}
-
+export { createApi as api };

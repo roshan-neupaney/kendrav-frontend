@@ -64,6 +64,13 @@ export const actions = {
 					maxAge: 60 * 60 * 24 * 365,
 					httpOnly: false
 				});
+				if (workspace_slug) {
+					cookies.set('workspace_slug', workspace_slug, {
+						path: '/',
+						maxAge: 60 * 60 * 24 * 365,
+						httpOnly: false
+					});
+				}
 				return message(form, {
 					text: res.message,
 					data: {
