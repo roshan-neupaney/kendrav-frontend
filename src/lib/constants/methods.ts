@@ -15,7 +15,7 @@ export const PostMethod = async <P, R>(
 			final_url = url.replace(':workspace_id', workspace_id);
 		}
 	}
-	const res = await api.post<P, R>(final_url, payload, fetchFn);
+	const res = await api.post<P, R>(final_url, payload, fetchFn, headers);
 
 	const message = Array.isArray(res.message)
 		? res.message[0]
