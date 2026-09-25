@@ -17,6 +17,9 @@ export default defineConfig({
 			adapter: adapter()
 		})
 	],
+	server: {
+		allowedHosts: ['retorted-groggily-launder.ngrok-free.dev']
+	},
 	test: {
 		expect: { requireAssertions: true },
 		projects: [

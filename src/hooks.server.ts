@@ -50,7 +50,7 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 		if (!refresh_token) {
 			throw redirect(302, '/login');
 		}
-		const refreshRes = await fetch(`${BASE_URL}/api/v1/${TokenRefreshApi}`, {
+		const refreshRes = await fetch(`${BASE_URL}/${TokenRefreshApi}`, {
 			method: 'POST',
 			body: JSON.stringify({ refresh: refresh_token }),
 			headers: {
