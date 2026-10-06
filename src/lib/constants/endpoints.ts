@@ -8,3 +8,6 @@ export const GoogleAuthApi = 'v1/auth/google/';
 export const UserProfileApi = 'v1/users/me/'
 export const ConnectWorkspaceChannelApi = 'v1/workspace/:workspace_id/channel/'
 
+// Notification
+export const RegisterFCMTokenApi = 'v1/notification/fcm-token/register/'
+export const UnRegisterFCMTokenApi = 'v1/notification/fcm-token/unregister/'

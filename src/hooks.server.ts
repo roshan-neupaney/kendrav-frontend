@@ -1,5 +1,5 @@
 import { TokenRefreshApi } from '$lib/constants/endpoints';
-import { BASE_URL } from '$lib/constants/envVariables';
+import { base_url } from '$lib/constants/envVariables';
 import { pageRoutes } from '$lib/constants/pageRoutes';
 import { redirect, type Handle, type HandleFetch } from '@sveltejs/kit';
 
@@ -50,7 +50,7 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 		if (!refresh_token) {
 			throw redirect(302, '/login');
 		}
-		const refreshRes = await fetch(`${BASE_URL}/${TokenRefreshApi}`, {
+		const refreshRes = await fetch(`${base_url}/${TokenRefreshApi}`, {
 			method: 'POST',
 			body: JSON.stringify({ refresh: refresh_token }),
 			headers: {

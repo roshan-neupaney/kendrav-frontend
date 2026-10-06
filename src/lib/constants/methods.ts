@@ -10,11 +10,12 @@ export const PostMethod = async <P, R>(
 	let final_url = url;
 	if (url.includes(':workspace_id')) {
 		if (!workspace_id) {
-			return { message: 'Workspace id is required', status: 400 };
+			throw new Error('Workspace id is required')
 		} else {
 			final_url = url.replace(':workspace_id', workspace_id);
 		}
 	}
+
 	const res = await api.post<P, R>(final_url, payload, fetchFn, headers);
 
 	const message = Array.isArray(res.message)

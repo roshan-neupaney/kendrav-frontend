@@ -8,7 +8,6 @@
 
 	const { userData } = page.data;
 
-	console.log('userData', userData);
 	const callbackUrl = 'http://localhost:5173/channel/callback/facebook';
 	const titokCallbackUrl = 'http://localhost:5173/channel/callback/tiktok';
 

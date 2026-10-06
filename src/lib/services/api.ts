@@ -1,4 +1,4 @@
-import { BASE_URL } from '$lib/constants/envVariables';
+import { base_url } from '$lib/constants/envVariables';
 
 export interface BaseResponse<T> {
 	status: number;
@@ -13,7 +13,7 @@ const createApi = {
 		fetchFn: typeof fetch = fetch,
 		headers?: { [key: string]: string }
 	): Promise<BaseResponse<R>> => {
-		const res = await fetchFn(`${BASE_URL}/${url}`, {
+		const res = await fetchFn(`${base_url}/${url}`, {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
@@ -28,7 +28,7 @@ const createApi = {
 		fetchFn: typeof fetch = fetch,
 		headers?: { [key: string]: string }
 	): Promise<BaseResponse<R>> => {
-		const res = await fetchFn(`${BASE_URL}/${url}`, {
+		const res = await fetchFn(`${base_url}/${url}`, {
 			method: 'GET',
 			headers: {
 				...(headers ? headers : {}),
