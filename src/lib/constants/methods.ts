@@ -31,12 +31,16 @@ export const GetMethod = async <R>(
 	fetchFn: typeof fetch = fetch,
 	headers?: { [key: string]: string }
 ) => {
-	const res = await api.get<R>(url, fetchFn, headers);
-
-	const message = Array.isArray(res.message)
+	try{
+		const res = await api.get<R>(url, fetchFn, headers);
+		
+		const message = Array.isArray(res.message)
 		? res.message[0]
 		: typeof res.message
-			? res.message
-			: '';
-	return { ...res, message };
+		? res.message
+		: '';
+		return { ...res, message };
+	} catch(e) {
+		throw new Error('Error fetching data')
+	}
 };
