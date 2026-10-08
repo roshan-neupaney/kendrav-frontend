@@ -7,6 +7,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const path = event.url.pathname;
 	const access_token = event.cookies.get('access_token');
 	const refresh_token = event.cookies.get('refresh_token');
+	const slug = event.cookies.get('workspace_slug');
 
 	const isLoggedIn = !!(access_token || refresh_token);
 	const currentRoute = pageRoutes.find((item) => {
@@ -28,7 +29,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	if (isAuthPage && isLoggedIn && event.request.method === 'GET') {
-    throw redirect(302, '/personal_12/home')
+    throw redirect(302, `/${slug}/home`)
 }
 	
 	return resolve(event);
