@@ -28,7 +28,7 @@
 			});
 
 			if (!token) return;
-			// if (token === fcm_token)
+			if (token === fcm_token) return;
 			try {
 				const res = await PostMethod<FCMTokenPayload, FCMTokenResponse>(
 					RegisterFCMTokenApi,
